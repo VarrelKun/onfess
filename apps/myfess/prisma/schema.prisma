@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // url      = env("DATABASE_URL")
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Group {
+  id       String @id @default(uuid())
+  slug     String @unique
+  name     String
+  password String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  threads Thread[]
+
+  @@map("groups")
+}
+
+model Thread {
+  id      String  @id @default(uuid())
+  slug    String  @unique
+  sender  String?
+  content String
+
+  group_id String
+  group    Group  @relation(fields: [group_id], references: [id])
+
+  answering_id String?
+  answering    Thread?  @relation("ThreadToThread", fields: [answering_id], references: [id])
+  comments     Thread[] @relation("ThreadToThread")
+
+  shares Share[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("threads")
+}
+
+model Share {
+  id String @id @default(uuid())
+
+  thread_id String
+  thread    Thread @relation(fields: [thread_id], references: [id])
+
+  @@map("shares")
+}

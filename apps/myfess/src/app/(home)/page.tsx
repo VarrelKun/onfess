@@ -1,35 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { ChatBubbleIcon, Share2Icon } from "@radix-ui/react-icons";
-import { AtomIcon, FlameIcon } from "lucide-react";
+import { AtomIcon, FlameIcon, UsersRoundIcon } from "lucide-react";
 import moment from "moment";
 import "moment/locale/id";
 import Link from "next/link";
 
-type Props = {
-  params: {
-    group: string;
-  };
-};
-
-export default function GroupPage(props: Props) {
+export default function HomePage() {
   return (
-    <div className="">
-      <div className="mt-4 border-t border-b p-4 ">
-        <Textarea
-          placeholder="Apa yang ingin kamu ungkapkan?!"
-          className="ring-0 border-none focus-visible:ring-0 focus-visible:border-none text-xl bg-transparent"
-        />
-        <div className="mt-2">
-          <div className="flex justify-end">
-            <Button className="rounded-full">Posting</Button>
-          </div>
-        </div>
-      </div>
+    <div>
       <div className="m-4">
         <div className="flex gap-x-1 items-center m-2 mt-6">
           <FlameIcon className="" />
-          <span className="font-semibold ">Populer</span>
+          <span className="font-semibold ">Menfess Populer</span>
         </div>
         <article className="">
           <div className="w-full border-t border-none dark:border-solid">
@@ -41,6 +23,10 @@ export default function GroupPage(props: Props) {
                     <span className="font-bold">﹒</span>
                     <span className="text-muted-foreground">
                       {moment("2024/02/01 20:52:00").locale("id").fromNow()}
+                    </span>
+                    <span className="font-bold">﹒</span>
+                    <span className="text-muted-foreground">
+                      SMAN 2 Kotabumi
                     </span>
                   </div>
                 </div>
@@ -100,6 +86,10 @@ export default function GroupPage(props: Props) {
                     <span className="font-bold">﹒</span>
                     <span className="text-muted-foreground">
                       {moment("2024/02/01 19:50:00").locale("id").fromNow()}
+                    </span>
+                    <span className="font-bold">﹒</span>
+                    <span className="text-muted-foreground">
+                      Universitas Bandar Lampung
                     </span>
                   </div>
                 </div>
@@ -141,7 +131,7 @@ export default function GroupPage(props: Props) {
         </article>
         <div className="flex gap-x-1 items-center m-2 mt-6">
           <AtomIcon className="" />
-          <span className="font-semibold ">Terbaru</span>
+          <span className="font-semibold ">Menfess Terbaru</span>
         </div>
         <article className="">
           <div className="w-full border-t border-none dark:border-solid">
@@ -152,7 +142,11 @@ export default function GroupPage(props: Props) {
                     <span className="">{"Anonim"}</span>
                     <span className="font-bold">﹒</span>
                     <span className="text-muted-foreground">
-                      {moment("2024/02/01 20:52:00").locale("id").fromNow()}
+                      {moment("2024/02/01 19:50:00").locale("id").fromNow()}
+                    </span>
+                    <span className="font-bold">﹒</span>
+                    <span className="text-muted-foreground">
+                      Universitas Bandar Lampung
                     </span>
                   </div>
                 </div>
@@ -213,6 +207,10 @@ export default function GroupPage(props: Props) {
                     <span className="text-muted-foreground">
                       {moment("2024/02/01 19:50:00").locale("id").fromNow()}
                     </span>
+                    <span className="font-bold">﹒</span>
+                    <span className="text-muted-foreground">
+                      Universitas Bandar Lampung
+                    </span>
                   </div>
                 </div>
               </div>
@@ -251,6 +249,44 @@ export default function GroupPage(props: Props) {
             </div>
           </div>
         </article>
+      </div>
+
+      <div>
+        <div className="m-4">
+          <div className="flex gap-x-1 items-center mt-6">
+            <UsersRoundIcon />
+            <span className="font-semibold">Komunitas Populer</span>
+          </div>
+          <div className="mt-2">
+            <ol className="list-decimal list-inside space-y-1 text-primary font-medium text-sm">
+              <li>
+                <Link href={"/grup-id"} className="hover:underline">
+                  Universitas Bandar Lampung
+                </Link>
+              </li>
+              <li>
+                <Link href={"/grup-id"} className="hover:underline">
+                  SMA Xaverius Bandar Lampung
+                </Link>
+              </li>
+              <li>
+                <Link href={"/grup-id"} className="hover:underline">
+                  SMAN 1 Bandar Lampung
+                </Link>
+              </li>
+              <li>
+                <Link href={"/grup-id"} className="hover:underline">
+                  SMAN 2 Kotabumi
+                </Link>
+              </li>
+              <li>
+                <Link href={"/grup-id"} className="hover:underline">
+                  SMAN 1 Metro
+                </Link>
+              </li>
+            </ol>
+          </div>
+        </div>
       </div>
     </div>
   );
