@@ -1,4 +1,5 @@
 import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ChatBubbleIcon, Share2Icon } from "@radix-ui/react-icons";
 import moment from "moment";
 import Link from "next/link";
@@ -14,6 +15,7 @@ type Props = {
   };
   group: {
     slug: string;
+    name?: string;
   };
 };
 
@@ -30,6 +32,14 @@ export function ThreadItem(props: Props) {
                 <span className="text-muted-foreground">
                   {moment(props.thread.created_at).locale("id").fromNow()}
                 </span>
+                {props.group.name && (
+                  <>
+                    <span className="font-bold">﹒</span>
+                    <span className="text-muted-foreground">
+                      {props.group.name}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -54,11 +64,13 @@ export function ThreadItem(props: Props) {
             <div className="flex items-center justify-center rounded-full border">
               <Link
                 href={`/${props.group.slug}/${props.thread.slug}`}
-                className={buttonVariants({
-                  variant: "ghost",
-                  size: "sm",
-                  className: "h-8 rounded-full font-normal",
-                })}
+                className={cn(
+                  buttonVariants({
+                    variant: "ghost",
+                    size: "sm",
+                  }),
+                  "h-8 rounded-full font-normal",
+                )}
               >
                 <ChatBubbleIcon className="mr-2 h-4 w-4" />
                 <span className="text-sm">{props.thread.comment_count}</span>

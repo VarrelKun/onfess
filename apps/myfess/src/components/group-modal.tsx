@@ -47,7 +47,7 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
       password: v.password,
     });
     router.push(`/${group.slug}`);
-    setLoading(false);
+    // setLoading(false);
   };
 
   return (

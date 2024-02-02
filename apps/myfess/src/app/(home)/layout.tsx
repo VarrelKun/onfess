@@ -29,8 +29,8 @@ export default function Layout<P>({ children }: PropsWithChildren<P>) {
           <div className="p-4 text-center text-slate-600">
             <p className="text-xs">
               Crafted with{" "}
-              <span role="img" aria-label="love">
-                ❤️
+              <span role="img" aria-label="love" className="mx-1">
+                🧡
               </span>{" "}
               by Indonesian Programmer 🇮🇩
             </p>

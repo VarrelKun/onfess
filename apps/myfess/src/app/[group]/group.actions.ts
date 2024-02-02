@@ -24,3 +24,16 @@ export const getGroupBySlug = async (slug: string) => {
     },
   });
 };
+
+export const getPopularGroup = async () => {
+  return await prisma.group.findMany({
+    orderBy: [
+      {
+        threads: {
+          _count: "desc",
+        },
+      },
+    ],
+    take: 5,
+  });
+};

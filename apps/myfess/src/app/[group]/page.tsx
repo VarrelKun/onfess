@@ -1,6 +1,9 @@
 import { AtomIcon, FlameIcon } from "lucide-react";
 import "moment/locale/id";
-import { getLastestThreadsByGroupSlug } from "./[thread]/thread.actions";
+import {
+  getLastestThreadsByGroupSlug,
+  getPopularThreadsByGroupSlug,
+} from "./[thread]/thread.actions";
 import CreateNewThreadForm from "./components/create-new-thread-form";
 import { ThreadItem } from "./components/thread-item";
 
@@ -11,7 +14,10 @@ type Props = {
 };
 
 export default async function GroupPage(props: Props) {
-  const lastestThreads = await getLastestThreadsByGroupSlug(props.params.group);
+  const [lastestThreads, popular] = await Promise.all([
+    getLastestThreadsByGroupSlug(props.params.group),
+    getPopularThreadsByGroupSlug(props.params.group),
+  ]);
   return (
     <div className="">
       <div className="mt-4 border-t border-b p-4 ">
@@ -23,7 +29,7 @@ export default async function GroupPage(props: Props) {
           <span className="font-semibold ">Populer</span>
         </div>
         <div className="space-y-4">
-          {lastestThreads.map((thread) => {
+          {popular.map((thread) => {
             return (
               <ThreadItem
                 key={thread.id}

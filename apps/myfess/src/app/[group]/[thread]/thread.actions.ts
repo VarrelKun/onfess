@@ -126,6 +126,109 @@ export const getThreadsCommentsBySlug = async (
     orderBy: {
       created_at: "desc",
     },
+    take: limit,
+  });
+};
+
+export const getLastestThreads = async (limit?: number) => {
+  return await prisma.thread.findMany({
+    where: {
+      answering_id: null,
+    },
+    orderBy: [
+      {
+        created_at: "desc",
+      },
+    ],
+    include: {
+      group: {
+        select: {
+          slug: true,
+          name: true,
+        },
+      },
+      _count: {
+        select: {
+          comments: true,
+          shares: true,
+        },
+      },
+    },
+    take: limit || 3,
+  });
+};
+export const getPopularThreads = async (limit?: number) => {
+  return await prisma.thread.findMany({
+    where: {
+      answering_id: null,
+    },
+    orderBy: [
+      {
+        comments: {
+          _count: "desc",
+        },
+      },
+      {
+        shares: {
+          _count: "desc",
+        },
+      },
+    ],
+    include: {
+      group: {
+        select: {
+          slug: true,
+          name: true,
+        },
+      },
+      _count: {
+        select: {
+          comments: true,
+          shares: true,
+        },
+      },
+    },
+    take: limit || 5,
+  });
+};
+
+export const getPopularThreadsByGroupSlug = async (
+  group_slug: string,
+  limit?: number,
+) => {
+  return await prisma.thread.findMany({
+    where: {
+      group: {
+        slug: group_slug,
+      },
+      answering_id: null,
+    },
+    orderBy: [
+      {
+        comments: {
+          _count: "desc",
+        },
+      },
+      {
+        shares: {
+          _count: "desc",
+        },
+      },
+    ],
+    include: {
+      group: {
+        select: {
+          slug: true,
+          name: true,
+        },
+      },
+      _count: {
+        select: {
+          comments: true,
+          shares: true,
+        },
+      },
+    },
     take: limit || 3,
   });
 };
