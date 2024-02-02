@@ -16,3 +16,11 @@ export const createNewGroup = async (props: {
     },
   });
 };
+
+export const getGroupBySlug = async (slug: string) => {
+  return await prisma.group.findUnique({
+    where: {
+      slug: slug,
+    },
+  });
+};

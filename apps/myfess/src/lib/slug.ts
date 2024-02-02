@@ -3,12 +3,13 @@ const generateRandomNumber = (min: number, max: number) => {
 };
 
 export const generateSlug = (text: string) => {
+  text = text.substring(0, 50);
   return (
     text
       .toLowerCase()
       .replace(/ /g, "-")
       .replace(/[^\w-]+/g, "") +
     "-" +
-    generateRandomNumber(1000, 9999)
+    generateRandomNumber(10000, 99999)
   );
 };
