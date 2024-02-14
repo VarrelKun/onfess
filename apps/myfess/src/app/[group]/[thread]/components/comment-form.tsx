@@ -41,7 +41,10 @@ export default function CommentForm({
           <Textarea
             placeholder="Apa tanggapan kamu?!"
             className=""
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              if (content.length > 1000) return;
+              setContent(e.target.value);
+            }}
             disabled={loading}
             value={content}
           />

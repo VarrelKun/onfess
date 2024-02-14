@@ -19,11 +19,15 @@ export default function CreateNewThreadForm({
 
   const submit = async () => {
     setLoading(true);
-    await createNewThread({ group_slug: group_id, content: content });
+    const thread = await createNewThread({
+      group_slug: group_id,
+      content: content,
+    });
     setContent("");
     onThreadCreated?.();
-    setLoading(false);
     router.refresh();
+    setLoading(false);
+    router.push(`/${group_id}/${thread.slug}`);
   };
   return (
     <>
@@ -36,7 +40,10 @@ export default function CreateNewThreadForm({
         <Textarea
           placeholder="Apa yang ingin kamu ungkapkan?!"
           className="ring-0 border-none focus-visible:ring-0 focus-visible:border-none text-xl bg-transparent"
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            if (content.length > 1000) return;
+            setContent(e.target.value);
+          }}
           value={content}
         />
         <div className="mt-2">

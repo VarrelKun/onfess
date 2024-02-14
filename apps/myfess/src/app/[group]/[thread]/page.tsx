@@ -21,7 +21,7 @@ export default async function Thread(props: Props) {
   const thread = await getThreadBySlug(props.params.thread);
   if (!thread) return notFound();
   return (
-    <div className="mb-20 mt-10">
+    <div className="mb-20 mt-4">
       <div className="">
         <Post thread={thread} />
         <div className="mt-6">
@@ -74,21 +74,30 @@ function Post({
 }) {
   return (
     <article>
-      <div className="w-full p-4 border-t border-b">
+      <div className="w-full p-4 border-b">
         <div className="mt-1 w-full rounded-lg  px-3 py-2 transition duration-100 hover:bg-slate-50">
           <div className="flex items-center space-x-2 text-xs">
             <div className="flex flex-col">
               <div>
                 <span className="">{thread?.sender || "Anonim"}</span>
-                <span className="font-bold">﹒</span>
+                <span className="">
+                  <svg
+                    className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
+                    viewBox="0 0 100 100"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect width="100" height="100" rx="50" />
+                  </svg>
+                </span>
                 <span className="text-muted-foreground">
                   {moment(thread!.created_at).locale("id").fromNow()}
                 </span>
               </div>
             </div>
           </div>
-          <div className="mt-2">
-            <p className="text-sm">{thread!.content}</p>
+          <div className="mt-2 py-1">
+            <p className="text-sm whitespace-pre-line">{thread!.content}</p>
           </div>
           <div className="mt-4 flex gap-x-2 text-neutral-500">
             <div className="flex items-center justify-center rounded-full border">
@@ -134,19 +143,27 @@ function Comment({
               <span className="inline-flex w-fit items-center">
                 {comment.sender || "Anonim"}
               </span>
-              <span className="font-bold">﹒</span>
+              <span className="">
+                <svg
+                  className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="100" height="100" rx="50" />
+                </svg>
+              </span>
               <span className="text-muted-foreground">
-                {" "}
                 {moment(comment.created_at).locale("id").fromNow()}
               </span>
             </div>
           </div>
         </div>
-        <div className="mt-1">
+        <div className="mt-1 py-0.5">
           <p className="text-sm">
             <Link
               href={`/${group.slug}/${comment.slug}`}
-              className="inline-block "
+              className="inline-block whitespace-pre-line"
             >
               {comment.content.slice(0, 300)}
               {comment.content.length > 300 && (
@@ -237,9 +254,17 @@ function SubComment(props: {
                   <span className="inline-flex w-fit items-center">
                     {props.comment.sender || "Anonim"}
                   </span>
-                  <span className="font-bold">﹒</span>
+                  <span className="">
+                    <svg
+                      className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
+                      viewBox="0 0 100 100"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="100" height="100" rx="50" />
+                    </svg>
+                  </span>
                   <span className="text-muted-foreground">
-                    {" "}
                     {moment(props.comment.created_at).locale("id").fromNow()}
                   </span>
                 </div>

@@ -1,13 +1,13 @@
 import { CreateNewGroupModal } from "@/components/group-modal";
 import { Button } from "@/components/ui/button";
-import { PlusSquareIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { PropsWithChildren } from "react";
 
 export default function Layout<P>({ children }: PropsWithChildren<P>) {
   return (
     <div className="">
       <div className="mx-auto md:max-w-screen-sm md:min-w-max border min-h-screen bg-background">
-        <header className="px-5 py-2 bg-primary rounded-full shadow-md text-center m-2 mt-4 flex items-center justify-between">
+        {/* <header className="px-5 py-2 bg-primary rounded-full shadow-md text-center m-2 mt-4 flex items-center justify-between">
           <div></div>
           <h2 className="text-xl font-bold tracking-tight text-slate-50">
             MyFess
@@ -22,6 +22,26 @@ export default function Layout<P>({ children }: PropsWithChildren<P>) {
                 <PlusSquareIcon className="w-6 h-6 text-slate-100" />
               </Button>
             </CreateNewGroupModal>
+          </div>
+        </header> */}
+        <header className="p-4 border-b md:max-w-screen-sm">
+          <div className="grid grid-cols-2">
+            <div className="">
+              <h2 className="font-bold text-2xl text-primary">
+                MyFess | Menfess Online
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Tulis pesan secara anonim untuk orang disekitarmu ✨
+              </p>
+            </div>
+            <div className="flex justify-end">
+              {" "}
+              <CreateNewGroupModal>
+                <Button size={"sm"} className="rounded-full mt-2">
+                  <PlusIcon className="w-6 h-6 mr-3 " /> Grup Baru
+                </Button>
+              </CreateNewGroupModal>
+            </div>
           </div>
         </header>
         <main className="min-h-screen md:max-w-screen-sm">{children}</main>

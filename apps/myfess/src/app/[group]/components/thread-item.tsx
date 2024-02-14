@@ -17,24 +17,48 @@ type Props = {
     slug: string;
     name?: string;
   };
+  className?: string;
 };
 
 export function ThreadItem(props: Props) {
   return (
     <article className="">
       <div className="w-full border-t border-none dark:border-solid">
-        <div className="mt-1 w-full rounded-lg border px-3 py-2 transition duration-100 hover:bg-slate-50">
+        <div
+          className={cn(
+            "mt-1 w-full rounded-lg border px-3 py-2 transition duration-100 hover:bg-slate-50",
+            props.className,
+          )}
+        >
           <div className="flex items-center space-x-2 text-xs">
             <div className="flex flex-col">
               <div>
                 <span className="">{props.thread.sender ?? "Anonim"}</span>
-                <span className="font-bold">﹒</span>
+                <span className="">
+                  <svg
+                    className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
+                    viewBox="0 0 100 100"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect width="100" height="100" rx="50" />
+                  </svg>
+                </span>
                 <span className="text-muted-foreground">
                   {moment(props.thread.created_at).locale("id").fromNow()}
                 </span>
                 {props.group.name && (
                   <>
-                    <span className="font-bold">﹒</span>
+                    <span className="">
+                      <svg
+                        className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
+                        viewBox="0 0 100 100"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect width="100" height="100" rx="50" />
+                      </svg>
+                    </span>
                     <span className="text-muted-foreground">
                       {props.group.name}
                     </span>
@@ -44,11 +68,13 @@ export function ThreadItem(props: Props) {
             </div>
           </div>
           <div className="mt-2"></div>
-          <div className="mt-0.5">
+          <div className="mt-0.5 py-1">
             <p className="text-sm text-slate-700">
               <Link
                 href={`/${props.group.slug}/${props.thread.slug}`}
-                className="inline-block "
+                className={cn(
+                  props.thread.content.length > 300 ? "inline-block " : "block",
+                )}
               >
                 {props.thread.content.slice(0, 300)}
                 {props.thread.content.length > 300 && (

@@ -19,7 +19,7 @@ export default async function HomePage() {
   return (
     <div>
       <div className="m-4">
-        <div className="flex gap-x-1 items-center m-2 mt-6">
+        <div className="flex gap-x-1 items-center my-2 mt-6">
           <FlameIcon className="" />
           <span className="font-semibold ">Menfess Populer</span>
         </div>
@@ -36,7 +36,7 @@ export default async function HomePage() {
             />
           ))}
         </div>
-        <div className="flex gap-x-1 items-center m-2 mt-6">
+        <div className="flex gap-x-1 items-center my-2 mt-6">
           <AtomIcon className="" />
           <span className="font-semibold ">Menfess Terbaru</span>
         </div>

@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/slug";
+import moment from "moment";
 
 type CreateNewThreadProps = {
   content: string;
@@ -84,7 +85,7 @@ export const getLastestThreadsByGroupSlug = async (
     orderBy: {
       created_at: "desc",
     },
-    take: limit || 3,
+    take: limit,
   });
 };
 
@@ -94,6 +95,12 @@ export const getThreadBySlug = async (slug: string) => {
       slug: slug,
     },
     include: {
+      group: {
+        select: {
+          slug: true,
+          name: true,
+        },
+      },
       _count: {
         select: {
           comments: true,
@@ -202,6 +209,13 @@ export const getPopularThreadsByGroupSlug = async (
         slug: group_slug,
       },
       answering_id: null,
+      comments: {
+        some: {
+          created_at: {
+            gte: moment().add(-7, "days").toDate(),
+          },
+        },
+      },
     },
     orderBy: [
       {

@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { PropsWithChildren } from "react";
-import { getGroupBySlug } from "./group.actions";
+import { PropsWithChildren, Suspense } from "react";
+import { getGroupBySlug } from "../group.actions";
+import ThreadHeader from "./components/thread-header";
+import ThreadHeaderName from "./components/thread-header-name";
 
 type Props = {
   params: {
@@ -20,22 +21,17 @@ export default async function Layout<P>({
   children,
   params,
 }: PropsWithChildren<P> & Props) {
-  const group = await getGroupBySlug(params.group);
+  //   const group = await getGroupBySlug(params.group);
   return (
     <div className="">
       <div className="mx-auto md:max-w-screen-sm md:min-w-max border min-h-screen bg-background">
-        <header className="px-5 py-2 bg-primary rounded-full shadow-md text-center m-2 mt-4">
-          <Link href={"/"}>
-            <p className="text-xs font-medium text-slate-100">MyFess</p>
-          </Link>
-          <Link href={`/${group?.slug || ""}`}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-50">
-              {group?.name ?? "Grup Tidak Ditemukan"}
-            </h2>
-          </Link>
-        </header>
+        <ThreadHeader group_slug={params.group}>
+          <Suspense>
+            <ThreadHeaderName group_slug={params.group} />
+          </Suspense>
+        </ThreadHeader>
         <main className="min-h-screen md:max-w-screen-sm">{children}</main>
-        <footer className="border-t">
+        <footer className="border">
           <div className="p-4 text-center text-slate-600">
             <p className="text-xs">
               Crafted with{" "}
