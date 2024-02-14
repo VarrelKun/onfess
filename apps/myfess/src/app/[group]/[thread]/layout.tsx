@@ -30,7 +30,7 @@ export default async function Layout<P>({
             <ThreadHeaderName group_slug={params.group} />
           </Suspense>
         </ThreadHeader>
-        <main className="min-h-screen md:max-w-screen-sm pt-4">{children}</main>
+        <main className="min-h-screen md:max-w-screen-sm pt-8">{children}</main>
         <footer className="border">
           <div className="p-4 text-center text-slate-600">
             <p className="text-xs">

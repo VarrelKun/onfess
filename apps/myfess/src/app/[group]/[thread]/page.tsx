@@ -25,6 +25,7 @@ export default async function Thread(props: Props) {
       <div className="">
         <Post thread={thread} />
         <div className="mt-6">
+          <h5 className="px-4 font-medium">Tanggapan</h5>
           <CommentForm thread_slug={props.params.thread} />
           <Suspense>
             <Comments
