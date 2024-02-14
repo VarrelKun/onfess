@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(font.className, "bg-slate-100")}>{children}</body>
+      <body className={cn(font.className, "bg-slate-100")}>
+        <NextTopLoader showSpinner={false} color="#1e9cf1" />
+        {children}
+      </body>
     </html>
   );
 }
