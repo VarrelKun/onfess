@@ -122,6 +122,12 @@ export const getThreadsCommentsBySlug = async (
       },
     },
     include: {
+      group: {
+        select: {
+          slug: true,
+          name: true,
+        },
+      },
       _count: {
         select: {
           comments: true,

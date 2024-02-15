@@ -1,3 +1,4 @@
+import { SharePostButton } from "@/components/share-button";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -121,14 +122,26 @@ function Post({
               </Button>
             </div>
             <div className="flex items-center justify-center rounded-full border">
-              <Button
-                variant={"ghost"}
-                size={"sm"}
-                className="h-8 rounded-full font-normal"
+              <SharePostButton
+                thread={{
+                  slug: thread!.slug,
+                  content: thread!.content,
+                  sender: thread!.sender,
+                  created_at: thread!.created_at,
+                  comment_count: thread!._count.comments,
+                  share_count: thread!._count.shares,
+                }}
+                group={thread!.group}
               >
-                <Share2Icon className="mr-2 h-4 w-4" />
-                <span className="text-sm"> {thread!._count.shares}</span>
-              </Button>
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  className="h-8 rounded-full font-normal"
+                >
+                  <Share2Icon className="mx-2 h-4 w-4" />
+                  {/* <span className="text-sm"> {thread!._count.shares}</span> */}
+                </Button>
+              </SharePostButton>
             </div>
           </div>
         </div>
@@ -202,14 +215,26 @@ function Comment({
             </Link>
           </div>
           <div className="flex items-center justify-center rounded-full">
-            <Button
-              variant={"ghost"}
-              size={"sm"}
-              className="h-8 rounded-full font-normal"
+            <SharePostButton
+              thread={{
+                slug: comment!.slug,
+                content: comment!.content,
+                sender: comment!.sender,
+                created_at: comment!.created_at,
+                comment_count: comment!._count.comments,
+                share_count: comment!._count.shares,
+              }}
+              group={comment!.group}
             >
-              <Share2Icon className="mr-2 h-4 w-4" />
-              <span className="text-sm">{comment._count.shares}</span>
-            </Button>
+              <Button
+                variant={"ghost"}
+                size={"sm"}
+                className="h-8 rounded-full font-normal"
+              >
+                <Share2Icon className="mx-2 h-4 w-4" />
+                {/* <span className="text-sm">{comment._count.shares}</span> */}
+              </Button>
+            </SharePostButton>
           </div>
         </div>
       </div>
