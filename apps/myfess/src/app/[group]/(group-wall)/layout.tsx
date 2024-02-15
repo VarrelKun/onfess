@@ -14,6 +14,11 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
   return {
     title: group ? `${group?.name} Menfess` : "Grup Tidak Ditemukan",
     description: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨",
+    openGraph: {
+      title: group ? `${group?.name} Menfess` : "Grup Tidak Ditemukan",
+      type: "article",
+      images: ["/assets/images/og.png"],
+    },
   };
 };
 
