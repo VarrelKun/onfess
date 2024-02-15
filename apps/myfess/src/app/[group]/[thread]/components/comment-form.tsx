@@ -49,7 +49,10 @@ export default function CommentForm({
             value={content}
           />
           <div className="flex justify-end mt-2">
-            <Button className="rounded-full" disabled={loading}>
+            <Button
+              className="rounded-full"
+              disabled={content.trim().length < 3 || loading}
+            >
               Posting
             </Button>
           </div>
