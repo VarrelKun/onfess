@@ -16,7 +16,7 @@ type Props = {
 
 export default async function GroupPage(props: Props) {
   const [lastestThreads, popular] = await Promise.all([
-    getLastestThreadsByGroupSlug(props.params.group),
+    getLastestThreadsByGroupSlug(props.params.group, 30),
     getPopularThreadsByGroupSlug(props.params.group),
   ]);
   return (

@@ -1,3 +1,4 @@
+import { SharePostButton } from "@/components/share-button";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChatBubbleIcon, Share2Icon } from "@radix-ui/react-icons";
@@ -59,9 +60,12 @@ export function ThreadItem(props: Props) {
                         <rect width="100" height="100" rx="50" />
                       </svg>
                     </span>
-                    <span className="text-muted-foreground">
+                    <Link
+                      href={`/${props.group.slug}`}
+                      className="text-muted-foreground hover:underline hover:text-primary"
+                    >
                       {props.group.name}
-                    </span>
+                    </Link>
                   </>
                 )}
               </div>
@@ -103,14 +107,16 @@ export function ThreadItem(props: Props) {
               </Link>
             </div>
             <div className="flex items-center justify-center rounded-full border">
-              <Button
-                variant={"ghost"}
-                size={"sm"}
-                className="h-8 rounded-full font-normal"
-              >
-                <Share2Icon className="mr-2 h-4 w-4" />
-                <span className="text-sm">{props.thread.share_count}</span>
-              </Button>
+              <SharePostButton thread={props.thread} group={props.group}>
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  className="h-8 rounded-full font-normal"
+                >
+                  <Share2Icon className="mx-2 h-4 w-4" />
+                  {/* <span className="text-sm">{props.thread.share_count}</span> */}
+                </Button>
+              </SharePostButton>
             </div>
           </div>
         </div>

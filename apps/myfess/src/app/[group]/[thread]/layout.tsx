@@ -1,19 +1,25 @@
 import { Metadata } from "next";
 import { PropsWithChildren, Suspense } from "react";
-import { getGroupBySlug } from "../group.actions";
 import ThreadHeader from "./components/thread-header";
 import ThreadHeaderName from "./components/thread-header-name";
+import { getThreadBySlug } from "./thread.actions";
 
 type Props = {
   params: {
     group: string;
+    thread: string;
   };
 };
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
-  const group = await getGroupBySlug(props.params.group);
+  // const group = await getGroupBySlug(props.params.group);
+  const thread = await getThreadBySlug(props.params.thread);
   return {
-    title: group ? `${group?.name} Menfess` : "Grup Tidak Ditemukan",
+    title: !thread ? "Thread Tidak Ditemukan" : thread.content.slice(0, 50),
+    openGraph: {
+      title: !thread ? "Thread Tidak Ditemukan" : thread.content.slice(0, 50),
+      type: "article",
+    },
   };
 };
 
@@ -21,7 +27,6 @@ export default async function Layout<P>({
   children,
   params,
 }: PropsWithChildren<P> & Props) {
-  //   const group = await getGroupBySlug(params.group);
   return (
     <div className="">
       <div className="mx-auto md:max-w-screen-sm md:min-w-max border min-h-screen bg-background">

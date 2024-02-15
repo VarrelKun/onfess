@@ -13,6 +13,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const group = await getGroupBySlug(props.params.group);
   return {
     title: group ? `${group?.name} Menfess` : "Grup Tidak Ditemukan",
+    description: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨",
   };
 };
 
@@ -32,10 +33,10 @@ export default async function Layout<P>({
                 <Link href={`/${group?.slug || ""}`}>
                   {group?.name ?? "Grup Tidak Ditemukan"}
                 </Link>{" "}
-                | <Link href={`/`}> MyFess </Link>
+                | <Link href={`/`}> OnFess </Link>
               </h2>
               <p className="text-sm text-muted-foreground">
-                Tulis pesan secara anonim untuk orang disekitarmu ✨
+                Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨
               </p>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { ChatBubbleIcon, Share2Icon } from "@radix-ui/react-icons";
 import { SortDesc } from "lucide-react";
@@ -27,7 +28,15 @@ export default async function Thread(props: Props) {
         <div className="mt-6">
           <h5 className="px-4 font-medium">Tanggapan</h5>
           <CommentForm thread_slug={props.params.thread} />
-          <Suspense>
+          <Suspense
+            fallback={
+              <div className="mt-6 p-4">
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full mt-4" />
+                <Skeleton className="h-16 w-full mt-4" />
+              </div>
+            }
+          >
             <Comments
               thread_slug={props.params.thread}
               group_slug={props.params.group}
@@ -245,7 +254,7 @@ function SubComment(props: {
   comment: Awaited<ReturnType<typeof getThreadsCommentsBySlug>>[number];
 }) {
   return (
-    <div className="ml-4">
+    <div className="ml-8">
       <div className="border-l">
         <div className="w-full">
           <div className=" w-full px-3 py-2 transition duration-100 hover:bg-slate-50">
