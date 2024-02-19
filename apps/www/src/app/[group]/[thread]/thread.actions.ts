@@ -174,6 +174,13 @@ export const getPopularThreads = async (limit?: number) => {
   return await prisma.thread.findMany({
     where: {
       answering_id: null,
+      comments: {
+        some: {
+          created_at: {
+            gte: moment().add(-7, "days").toDate(),
+          },
+        },
+      },
     },
     orderBy: [
       {

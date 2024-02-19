@@ -8,7 +8,7 @@ import {
 import { ThreadItem } from "../[group]/components/thread-item";
 import { getPopularGroup } from "../[group]/group.actions";
 
-export const revalidate = 200;
+export const revalidate = 30;
 
 export default async function HomePage() {
   const [popular, lastest, popularGroup] = await Promise.all([
