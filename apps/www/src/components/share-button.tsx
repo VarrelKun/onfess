@@ -1,6 +1,7 @@
 "use client";
 import "moment/locale/id";
 
+import { ImageIcon } from "@radix-ui/react-icons";
 import { CopyIcon } from "lucide-react";
 import moment from "moment";
 import { PropsWithChildren } from "react";
@@ -107,6 +108,64 @@ export function SharePostButton(props: Props) {
                   }
                   await window.navigator.clipboard.writeText(
                     `${window.location.origin}/${props.group.slug}/${props.thread.slug}`,
+                  );
+                  toast.success("Link disalin ke clipboard.");
+                } catch (error) {}
+              }}
+              className="flex gap-2 justify-center items-center text-sm text-muted-foreground hover:text-primary font-medium"
+            >
+              <CopyIcon className="w-4 h-4" />
+              Salin Link
+            </button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+type ShareGrupProps = PropsWithChildren<{}> & {
+  group_slug: string;
+  group_name: string;
+};
+
+export function ShareGroupButton(props: ShareGrupProps) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{props.children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Bagikan {props.group_name}</DialogTitle>
+          <DialogDescription>
+            Ajak orang lain untuk untuk memposting disini.
+          </DialogDescription>
+        </DialogHeader>
+        <div>
+          <div className="flex mt-2 gap-3">
+            <button
+              onClick={async () => {
+                try {
+                  const hiddenElement = document.createElement("a");
+                  hiddenElement.href = "/assets/images/sg-template.jpg";
+                  hiddenElement.target = "_blank";
+                  hiddenElement.download = "sg-template.jpg";
+                  hiddenElement.click();
+                  toast.success("Mulai mengunduh...");
+                } catch (error) {}
+              }}
+              className="flex gap-2 justify-center items-center text-sm text-muted-foreground hover:text-primary font-medium"
+            >
+              <ImageIcon className="w-4 h-4" />
+              Template
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  if (!window.isSecureContext) {
+                    return;
+                  }
+                  await window.navigator.clipboard.writeText(
+                    `${window.location.origin}/${props.group_slug}`,
                   );
                   toast.success("Link disalin ke clipboard.");
                 } catch (error) {}

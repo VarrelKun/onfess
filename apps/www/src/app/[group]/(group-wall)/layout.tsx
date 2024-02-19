@@ -1,3 +1,6 @@
+import { ShareGroupButton } from "@/components/share-button";
+import { Button } from "@/components/ui/button";
+import { Share2Icon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
@@ -12,10 +15,10 @@ type Props = {
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const group = await getGroupBySlug(props.params.group);
   return {
-    title: group ? `${group?.name} Menfess` : "Grup Tidak Ditemukan",
+    title: group ? `Kirim menfess di ${group?.name}` : "Grup Tidak Ditemukan",
     description: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨",
     openGraph: {
-      title: group ? `${group?.name} Menfess` : "Grup Tidak Ditemukan",
+      title: group ? `Kirim menfess di ${group?.name}` : "Grup Tidak Ditemukan",
       type: "article",
       images: ["/assets/images/og.png"],
     },
@@ -43,6 +46,22 @@ export default async function Layout<P>({
               <p className="text-sm text-muted-foreground">
                 Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨
               </p>
+              {group && (
+                <div className="mt-2">
+                  <ShareGroupButton
+                    group_slug={group.slug}
+                    group_name={group.name}
+                  >
+                    <Button
+                      className="text-sm"
+                      size={"sm"}
+                      variant={"secondary"}
+                    >
+                      <Share2Icon className="w-4 h-4 inline mr-2" /> Bagikan
+                    </Button>
+                  </ShareGroupButton>
+                </div>
+              )}
             </div>
           </div>
         </header>
