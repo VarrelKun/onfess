@@ -27,7 +27,7 @@ import {
 import { Input } from "./ui/input";
 
 const createNewGroupSchema = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3).max(30),
   password: z.string().min(6),
 });
 

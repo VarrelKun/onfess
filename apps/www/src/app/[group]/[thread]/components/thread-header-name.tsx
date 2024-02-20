@@ -7,5 +7,9 @@ type Props = {
 
 export default async function ThreadHeaderName({ group_slug }: Props) {
   const group = await getGroupBySlug(group_slug);
-  return <Link href={`/${group?.slug ?? ""}`}>{group?.name ?? ""}</Link>;
+  return (
+    <Link href={`/${group?.slug ?? ""}`} className="line-clamp-1">
+      {group?.name ?? ""}
+    </Link>
+  );
 }

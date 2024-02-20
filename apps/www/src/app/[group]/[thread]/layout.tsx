@@ -1,3 +1,4 @@
+import { truncateText } from "@/lib/text";
 import { Metadata } from "next";
 import { PropsWithChildren, Suspense } from "react";
 import ThreadHeader from "./components/thread-header";
@@ -15,9 +16,13 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
   // const group = await getGroupBySlug(props.params.group);
   const thread = await getThreadBySlug(props.params.thread);
   return {
-    title: !thread ? "Thread Tidak Ditemukan" : thread.content.slice(0, 50),
+    title: !thread
+      ? "Thread Tidak Ditemukan"
+      : truncateText(thread.content, 50),
     openGraph: {
-      title: !thread ? "Thread Tidak Ditemukan" : thread.content.slice(0, 50),
+      title: !thread
+        ? "Thread Tidak Ditemukan"
+        : truncateText(thread.content, 50),
       description:
         "Tulis dan temukan menfess anonim untuk orang di sekitar-mu ✨",
       type: "article",
