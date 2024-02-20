@@ -37,3 +37,14 @@ export const getPopularGroup = async () => {
     take: 5,
   });
 };
+
+export const getAllGroupSlug = async () => {
+  return await prisma.group.findMany({
+    select: {
+      slug: true,
+    },
+    orderBy: {
+      created_at: "asc",
+    },
+  });
+};
