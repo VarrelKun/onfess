@@ -259,3 +259,45 @@ export const getPopularThreadsByGroupSlug = async (
     take: limit || 3,
   });
 };
+
+export const deleteThread = async (
+  slug: string,
+  password: string,
+): Promise<{
+  error?: string;
+}> => {
+  const pw = await prisma.thread.findUnique({
+    where: {
+      slug: slug,
+    },
+    select: {
+      group: {
+        select: {
+          password: true,
+        },
+      },
+    },
+  });
+
+  if (pw?.group.password !== password) {
+    return {
+      error: "Kata sandi salah",
+    };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.thread.deleteMany({
+      where: {
+        answering: {
+          slug: slug,
+        },
+      },
+    });
+    await tx.thread.delete({
+      where: {
+        slug: slug,
+      },
+    });
+  });
+  return {};
+};
