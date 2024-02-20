@@ -10,20 +10,20 @@ const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu",
+    default: "Tulis dan temukan menfess anonim untuk orang di sekitar-mu",
     template: "%s | OnFess",
   },
   description:
     "Jangan biarkan pesanmu terbaca oleh orang yang tidak seharusnya 🤫",
   openGraph: {
-    title: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu",
+    title: "Tulis dan temukan menfess anonim untuk orang di sekitar-mu",
     description:
       "Jangan biarkan pesanmu terbaca oleh orang yang tidak seharusnya 🤫",
     type: "website",
     images: ["/assets/images/og.png"],
   },
   twitter: {
-    title: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu",
+    title: "Tulis dan temukan menfess anonim untuk orang di sekitar-mu",
     description:
       "Jangan biarkan pesanmu terbaca oleh orang yang tidak seharusnya 🤫",
   },

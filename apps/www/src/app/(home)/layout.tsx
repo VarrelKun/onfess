@@ -14,7 +14,7 @@ export default function Layout<P>({ children }: PropsWithChildren<P>) {
                 OnFess | Online Menfess
               </h2>
               <p className="text-sm text-muted-foreground">
-                Tulis pesan secara anonim untuk orang disekitarmu ✨
+                Tulis menfess secara anonim untuk orang disekitarmu ✨
               </p>
             </div>
             <div className="flex justify-end">

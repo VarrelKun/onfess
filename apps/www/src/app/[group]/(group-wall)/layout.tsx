@@ -16,7 +16,8 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const group = await getGroupBySlug(props.params.group);
   return {
     title: group ? `Kirim menfess di ${group?.name}` : "Grup Tidak Ditemukan",
-    description: "Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨",
+    description:
+      "Tulis dan temukan menfess anonim untuk orang di sekitar-mu ✨",
     openGraph: {
       title: group ? `Kirim menfess di ${group?.name}` : "Grup Tidak Ditemukan",
       type: "article",
@@ -44,7 +45,7 @@ export default async function Layout<P>({
                 | <Link href={`/`}> OnFess </Link>
               </h2>
               <p className="text-sm text-muted-foreground">
-                Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨
+                Tulis dan temukan menfess anonim untuk orang di sekitar-mu ✨
               </p>
               {group && (
                 <div className="mt-2">

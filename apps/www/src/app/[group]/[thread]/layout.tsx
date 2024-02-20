@@ -19,7 +19,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     openGraph: {
       title: !thread ? "Thread Tidak Ditemukan" : thread.content.slice(0, 50),
       description:
-        "Tulis dan temukan pesan anonim untuk orang di sekitar-mu ✨",
+        "Tulis dan temukan menfess anonim untuk orang di sekitar-mu ✨",
       type: "article",
       images: ["/assets/images/og.png"],
     },
