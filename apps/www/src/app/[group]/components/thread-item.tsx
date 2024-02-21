@@ -34,7 +34,7 @@ export function ThreadItem(props: Props) {
           <div className="flex items-center space-x-2 text-xs">
             <div className="flex flex-col">
               <div>
-                <span className="">{props.thread.sender ?? "Anonim"}</span>
+                <span className="">{"Anonim"}</span>
                 <span className="">
                   <svg
                     className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"

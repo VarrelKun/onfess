@@ -92,7 +92,7 @@ function Post({
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="">{thread?.sender || "Anonim"}</span>
+                  <span className="">{"Anonim"}</span>
                   <span className="">
                     <svg
                       className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
@@ -176,9 +176,7 @@ function Comment({
         <div className="flex items-center space-x-2 text-xs">
           <div className="flex flex-col">
             <div>
-              <span className="inline-flex w-fit items-center">
-                {comment.sender || "Anonim"}
-              </span>
+              <span className="inline-flex w-fit items-center">{"Anonim"}</span>
               <span className="">
                 <svg
                   className="w-0.5 h-0.5 bg-muted-foreground rounded-full inline mx-1"
@@ -300,7 +298,7 @@ function SubComment(props: {
               <div className="flex flex-col">
                 <div>
                   <span className="inline-flex w-fit items-center">
-                    {props.comment.sender || "Anonim"}
+                    {"Anonim"}
                   </span>
                   <span className="">
                     <svg

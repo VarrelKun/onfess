@@ -1,9 +1,12 @@
 "use client";
-import { deleteThread } from "@/app/[group]/[thread]/thread.actions";
+import {
+  checkIsMyThread,
+  deleteThread,
+} from "@/app/[group]/[thread]/thread.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -68,10 +71,6 @@ export function ThreadDetailAction({ children, ...props }: Props) {
   );
 }
 
-const deleteThreadSchema = z.object({
-  pass: z.string().min(6),
-});
-
 export function DeleteThreadModal(
   props: Props & {
     showDialog: boolean;
@@ -80,6 +79,11 @@ export function DeleteThreadModal(
 ) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isMyThread, setIsMyThread] = useState(false);
+
+  const deleteThreadSchema = z.object({
+    pass: isMyThread ? z.string().min(6).optional() : z.string().min(6),
+  });
 
   const form = useForm<z.infer<typeof deleteThreadSchema>>({
     resolver: zodResolver(deleteThreadSchema),
@@ -95,6 +99,15 @@ export function DeleteThreadModal(
     }
     router.push(`/${props.group_slug}`);
   };
+
+  const check = useCallback(async () => {
+    setIsMyThread(await checkIsMyThread(props.thread_slug));
+  }, [props.thread_slug]);
+
+  useEffect(() => {
+    check();
+  }, [check]);
+
   return (
     <>
       <Dialog open={props.showDialog} onOpenChange={props.setShowDialog}>
@@ -105,30 +118,33 @@ export function DeleteThreadModal(
               Menfess yang sudah dihapus tidak dapat dikembalikan.
             </DialogDescription>
           </DialogHeader>
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(submit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="pass"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kata sandi</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Kata sandi grup..."
-                        autoComplete="off"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription className="text-xs">
-                      Kata sandi dibutuhkan untuk membuktikan bahwa Anda adalah
-                      Admin grup.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {!isMyThread && (
+                <FormField
+                  control={form.control}
+                  name="pass"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kata sandi</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Kata sandi grup..."
+                          autoComplete="off"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-xs">
+                        Kata sandi dibutuhkan untuk membuktikan bahwa Anda
+                        adalah Admin grup.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <div className="flex justify-between">
                 <Button
                   type="button"

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description:
       "Jangan biarkan pesanmu terbaca oleh orang yang tidak seharusnya 🤫",
   },
-  metadataBase: new URL("https://myfess.vercel.app"),
+  metadataBase: new URL("https://onfess.online"),
 };
 
 export default function RootLayout({

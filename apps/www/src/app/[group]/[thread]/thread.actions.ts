@@ -3,20 +3,22 @@
 import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/slug";
 import moment from "moment";
+import { cookies } from "next/headers";
 
 type CreateNewThreadProps = {
   content: string;
-  sender?: string;
+  // sender?: string;
   group_slug: string;
 };
 
 export const createNewThread = async (props: CreateNewThreadProps) => {
+  const sender = cookies().get("_uid");
   const slug = generateSlug(props.content);
   return await prisma.thread.create({
     data: {
       slug: slug,
       content: props.content,
-      sender: props.sender,
+      sender: sender?.value || null,
       group: {
         connect: {
           slug: props.group_slug,
@@ -31,6 +33,7 @@ export const sendThreadComment = async (
     thread_slug: string;
   },
 ) => {
+  const sender = cookies().get("_uid");
   const group = await prisma.thread.findUnique({
     where: {
       slug: props.thread_slug,
@@ -47,7 +50,7 @@ export const sendThreadComment = async (
     data: {
       slug: slug,
       content: props.content,
-      sender: props.sender,
+      sender: sender?.value || null,
       group: {
         connect: {
           slug: group.group.slug,
@@ -262,7 +265,7 @@ export const getPopularThreadsByGroupSlug = async (
 
 export const deleteThread = async (
   slug: string,
-  password: string,
+  password?: string,
 ): Promise<{
   error?: string;
 }> => {
@@ -279,7 +282,7 @@ export const deleteThread = async (
     },
   });
 
-  if (pw?.group.password !== password) {
+  if (!(await checkIsMyThread(slug)) && pw?.group.password !== password) {
     return {
       error: "Kata sandi salah",
     };
@@ -300,4 +303,17 @@ export const deleteThread = async (
     });
   });
   return {};
+};
+
+export const checkIsMyThread = async (slug: string): Promise<boolean> => {
+  const uid = cookies().get("_uid");
+  const thread = await prisma.thread.findUnique({
+    where: {
+      slug: slug,
+    },
+    select: {
+      sender: true,
+    },
+  });
+  return thread?.sender === uid?.value;
 };
