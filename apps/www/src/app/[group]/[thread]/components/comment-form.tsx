@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Turnstile } from "@marsidev/react-turnstile";
@@ -61,10 +62,11 @@ export default function CommentForm({
             }}
             className="hidden"
           />
-          <div className="mt-2 flex justify-end">
+          <div className="mt-2 flex items-center justify-end">
+            {!token && <Spinner className="mr-4" />}
             <Button
               className="rounded-full"
-              disabled={content.trim().length < 3 || loading}
+              disabled={content.trim().length < 3 || loading || !token}
             >
               Posting
             </Button>

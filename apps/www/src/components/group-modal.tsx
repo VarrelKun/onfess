@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Spinner from "./spinner";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -37,6 +38,7 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
   const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState("");
 
   const form = useForm<z.infer<typeof createNewGroupSchema>>({
     resolver: zodResolver(createNewGroupSchema),
@@ -123,6 +125,7 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
                       siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""}
                       onSuccess={(token) => {
                         form.setValue("token", token);
+                        setToken(token);
                       }}
                       options={{
                         theme: "light",
@@ -134,7 +137,7 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
                 )}
               />
 
-              <div className="flex justify-between">
+              <div className="flex items-center justify-between">
                 <Button
                   type="button"
                   variant={"outline"}
@@ -143,9 +146,12 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
                 >
                   Batal
                 </Button>
-                <Button type="submit" disabled={loading}>
-                  Buat Grup
-                </Button>
+                <div className="flex items-center">
+                  {!token && <Spinner className="mr-4" />}
+                  <Button type="submit" disabled={loading || !token}>
+                    Buat Grup
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>

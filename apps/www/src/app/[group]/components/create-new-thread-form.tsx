@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Turnstile } from "@marsidev/react-turnstile";
@@ -63,8 +64,10 @@ export default function CreateNewThreadForm({
           }}
           className="hidden"
         />
+
         <div className="mt-2">
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end">
+            {!token && <Spinner className="mr-4" />}
             <Button
               className="rounded-full"
               disabled={content.trim().length < 3 || loading || !token}
