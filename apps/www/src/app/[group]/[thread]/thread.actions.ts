@@ -1,7 +1,9 @@
 "use server";
 
+import { verifyTurnstile } from "@/actions/turnstile";
 import prisma from "@/lib/prisma";
 import { generateSlug } from "@/lib/slug";
+import { ServerActionResponse } from "@/type/Action";
 import moment from "moment";
 import { cookies } from "next/headers";
 
@@ -9,30 +11,56 @@ type CreateNewThreadProps = {
   content: string;
   // sender?: string;
   group_slug: string;
+  captcha: string;
 };
 
-export const createNewThread = async (props: CreateNewThreadProps) => {
+type CreateNewThreadResponse = {
+  id: string;
+  slug: string;
+  sender: string | null;
+  content: string;
+  group_id: string;
+  answering_id: string | null;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export const createNewThread = async (
+  props: CreateNewThreadProps,
+): Promise<ServerActionResponse<CreateNewThreadResponse>> => {
+  if (!(await verifyTurnstile(props.captcha))) {
+    return {
+      error: "Captcha tidak valid, silahkan coba lagi",
+    };
+  }
   const sender = cookies().get("_uid");
   const slug = generateSlug(props.content);
-  return await prisma.thread.create({
-    data: {
-      slug: slug,
-      content: props.content,
-      sender: sender?.value || null,
-      group: {
-        connect: {
-          slug: props.group_slug,
+  return {
+    data: await prisma.thread.create({
+      data: {
+        slug: slug,
+        content: props.content,
+        sender: sender?.value || null,
+        group: {
+          connect: {
+            slug: props.group_slug,
+          },
         },
       },
-    },
-  });
+    }),
+  };
 };
 
 export const sendThreadComment = async (
   props: Omit<CreateNewThreadProps, "group_slug"> & {
     thread_slug: string;
   },
-) => {
+): Promise<ServerActionResponse<CreateNewThreadResponse>> => {
+  if (!(await verifyTurnstile(props.captcha))) {
+    return {
+      error: "Captcha tidak valid, silahkan coba lagi",
+    };
+  }
   const sender = cookies().get("_uid");
   const group = await prisma.thread.findUnique({
     where: {
@@ -46,23 +74,25 @@ export const sendThreadComment = async (
     throw new Error("Thread not found");
   }
   const slug = generateSlug(props.content);
-  return await prisma.thread.create({
-    data: {
-      slug: slug,
-      content: props.content,
-      sender: sender?.value || null,
-      group: {
-        connect: {
-          slug: group.group.slug,
+  return {
+    data: await prisma.thread.create({
+      data: {
+        slug: slug,
+        content: props.content,
+        sender: sender?.value || null,
+        group: {
+          connect: {
+            slug: group.group.slug,
+          },
+        },
+        answering: {
+          connect: {
+            slug: props.thread_slug,
+          },
         },
       },
-      answering: {
-        connect: {
-          slug: props.thread_slug,
-        },
-      },
-    },
-  });
+    }),
+  };
 };
 
 export const getLastestThreadsByGroupSlug = async (

@@ -2,6 +2,7 @@
 
 import { createNewGroup } from "@/app/[group]/group.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,6 +30,7 @@ import { Input } from "./ui/input";
 const createNewGroupSchema = z.object({
   name: z.string().min(3).max(30),
   password: z.string().min(6),
+  token: z.string({ required_error: "Verifikasi reCAPTCHA diperlukan" }),
 });
 
 export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
@@ -42,12 +44,19 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
 
   const submit = async (v: z.infer<typeof createNewGroupSchema>) => {
     setLoading(true);
-    const group = await createNewGroup({
+    const response = await createNewGroup({
       name: v.name,
       password: v.password,
+      captcha: v.token,
     });
-    router.push(`/${group.slug}`);
-    // setLoading(false);
+
+    if (response.error) {
+      form.setError("token", {
+        message: response.error,
+      });
+    }
+
+    router.push(`/${response.data?.slug}`);
   };
 
   return (
@@ -104,6 +113,27 @@ export function CreateNewGroupModal<P>({ children }: PropsWithChildren<P>) {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="token"
+                render={({ field }) => (
+                  <FormItem>
+                    <Turnstile
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""}
+                      onSuccess={(token) => {
+                        form.setValue("token", token);
+                      }}
+                      options={{
+                        theme: "light",
+                      }}
+                      className="hidden"
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <div className="flex justify-between">
                 <Button
                   type="button"
